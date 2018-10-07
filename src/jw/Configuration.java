@@ -2,10 +2,19 @@ package jw;
 
 public class Configuration
 {
+	// This is the port SocketProxy listens from connection from initiator.
 	private final int _servicePort;
+
+	// This is the acceptor part of the connection.
 	private final String _targetHost;
+
+	// This is the port acceptor is listening on.
 	private final int _targetPort;
+
+	// Maximum number of kilobits allowed from acceptor to initiator
 	private final int _inKbps;
+
+	// Maximum number of kilobits allowed from initiator to acceptor
 	private final int _outKbps;
 
 	public Configuration(final String[] args)
