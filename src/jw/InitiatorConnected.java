@@ -21,7 +21,7 @@ public class InitiatorConnected implements ConnectionState
 		Log.info("Connecting to acceptor %s:%d", _configuration.getTargetHost(), _configuration.getTargetPort());
 		final Socket acceptorSocket = new Socket(_configuration.getTargetHost(), _configuration.getTargetPort());
 		Log.info("Acceptor connected");
-		return new AcceptorConnected(_initiatorSocket, acceptorSocket);
+		return new AcceptorConnected(_configuration, _initiatorSocket, acceptorSocket);
 	}
 
 }
