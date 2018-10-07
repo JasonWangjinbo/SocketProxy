@@ -1,7 +1,6 @@
 package jw;
 
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.io.*;
 
 /**
  * A proxy for socket connections, created to help test socket connections with
@@ -12,23 +11,29 @@ import java.net.Socket;
  */
 public class SocketProxy
 {
-	// This is the target socket to connect to send and receive packets.
-	private Socket _targetSocket;
+	private final ConnectionState _state;
 
-	// This is the socket created to listen to connection the initiator of the
-	// connection.
-	private ServerSocket _hostingSocket;
+	public SocketProxy(final Configuration configuration)
+	{
+		_state = new Initialized(configuration);
+	}
 
-	// Inbound Kbps. Inbound is from connection initiator point of view.
-	private int _inboundKbps;
-
-	// Outbound Kbpls. Outbound is from connection initator point of view.
-	private int _outboundKbps;
+	public void execute() throws IOException
+	{
+		_state.execute();
+	}
 
 	public static void main(final String[] args)
 	{
-		// TODO Auto-generated method stub
-
+		try
+		{
+			final Configuration configuration = new Configuration(args);
+			new SocketProxy(configuration).execute();
+		}
+		catch (final IOException e)
+		{
+			Log.exception(e, "Exception when running SocketProxy");
+		}
 	}
 
 }

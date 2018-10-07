@@ -7,7 +7,7 @@ public class Initialized implements ConnectionState
 {
 	private final Configuration _configuration;
 
-	public Initialized(final Configuration configuration) throws IOException
+	public Initialized(final Configuration configuration)
 	{
 		_configuration = configuration;
 	}
