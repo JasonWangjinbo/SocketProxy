@@ -76,6 +76,7 @@ public class PacketsControl implements Runnable
 		{
 			Log.exception(e, "IOException while reading/writing packets");
 			_executor.shutdown();
+			System.exit(1);
 		}
 
 	}
