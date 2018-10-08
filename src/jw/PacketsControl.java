@@ -17,6 +17,7 @@ public class PacketsControl implements Runnable
 	private final OutputStream _out;
 	private final int _kbps;
 	private final int _maxBytesInOneSecond;
+	private final ScheduledExecutorService _executor;
 	private byte[] _remainingBuffer = null;
 
 	public PacketsControl(final String name, final InputStream in, final OutputStream out, final int kbps)
@@ -26,12 +27,12 @@ public class PacketsControl implements Runnable
 		_out = out;
 		_kbps = kbps;
 		_maxBytesInOneSecond = _kbps * 1000 / 8;
+		_executor = Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, _name));
 	}
 
 	public void execute()
 	{
-		Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, _name)).scheduleAtFixedRate(this, 0, 1000,
-				TimeUnit.MILLISECONDS);
+		_executor.scheduleAtFixedRate(this, 0, 1000, TimeUnit.MILLISECONDS);
 	}
 
 	@Override
@@ -55,7 +56,7 @@ public class PacketsControl implements Runnable
 				final int bytesRead = _in.read(buffer);
 				if (totalWrite + bytesRead < _maxBytesInOneSecond)
 				{
-					_out.write(buffer);
+					_out.write(buffer, 0, bytesRead);
 					totalWrite += bytesRead;
 					continue;
 				}
@@ -63,7 +64,10 @@ public class PacketsControl implements Runnable
 				{
 					final int bytesToSend = _maxBytesInOneSecond - totalWrite;
 					_out.write(buffer, 0, bytesToSend);
-					_remainingBuffer = Arrays.copyOfRange(buffer, bytesToSend, buffer.length);
+					if (totalWrite + bytesRead > _maxBytesInOneSecond)
+					{
+						_remainingBuffer = Arrays.copyOfRange(buffer, bytesToSend, buffer.length);
+					}
 					break;
 				}
 			}
@@ -71,6 +75,7 @@ public class PacketsControl implements Runnable
 		catch (final IOException e)
 		{
 			Log.exception(e, "IOException while reading/writing packets");
+			_executor.shutdown();
 		}
 
 	}
