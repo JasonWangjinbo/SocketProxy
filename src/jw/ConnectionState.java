@@ -4,5 +4,18 @@ import java.io.*;
 
 public interface ConnectionState
 {
-	public ConnectionState execute() throws IOException;
+	public default ConnectionState connectInitiator() throws IOException
+	{
+		return this;
+	};
+
+	public default ConnectionState connectAcceptor() throws IOException
+	{
+		return this;
+	};
+
+	public default ConnectionState startPacketsTransmit() throws IOException
+	{
+		return this;
+	};
 }

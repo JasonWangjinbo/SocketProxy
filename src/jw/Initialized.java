@@ -13,7 +13,7 @@ public class Initialized implements ConnectionState
 	}
 
 	@Override
-	public ConnectionState execute() throws IOException
+	public ConnectionState connectInitiator() throws IOException
 	{
 		// Create ServerSocket and wait for connection from initiator to be established.
 		Log.info("Listening on service port: %d", _configuration.getServicePort());

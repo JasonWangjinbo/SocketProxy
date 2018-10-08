@@ -15,7 +15,7 @@ public class InitiatorConnected implements ConnectionState
 	}
 
 	@Override
-	public ConnectionState execute() throws IOException
+	public ConnectionState connectAcceptor() throws IOException
 	{
 		// Create Socket to connect to target host on target port
 		Log.info("Connecting to acceptor %s:%d", _configuration.getTargetHost(), _configuration.getTargetPort());

@@ -25,7 +25,7 @@ public class AcceptorConnected implements ConnectionState
 	}
 
 	@Override
-	public ConnectionState execute() throws IOException
+	public ConnectionState startPacketsTransmit() throws IOException
 	{
 		new PacketsControl("InitiatorToAcceptor", _initiatorSocket.getInputStream(), _acceptorSocket.getOutputStream(),
 				_configuration.getOutKbps()).execute();

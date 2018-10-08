@@ -20,7 +20,7 @@ public class SocketProxy
 
 	public void execute() throws IOException
 	{
-		_state.execute();
+		_state.connectInitiator().connectAcceptor().startPacketsTransmit();
 	}
 
 	public static void main(final String[] args)
