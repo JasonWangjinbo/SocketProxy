@@ -1,3 +1,4 @@
+
 # SocketProxy
 Simple socket proxy to test low bandwidth TCP connections
 
@@ -11,5 +12,4 @@ java -cp SocketProxy.jar jw.SocketProxy -t $TargetHost/$TargetIP:$TargetPort -lp
 
 # JDK requirement
 Developed with Java 8.
-
 
